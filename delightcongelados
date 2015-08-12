@@ -1,33 +1,61 @@
-<div id="categorytab">
-  {% assign destaques = 'capa-promocao|subcategoria-1|subcategoria-2|capa' | split: "|" %}
-  <ul class="resp-tabs-list">
-    {% for tag_name in destaques %}
-      {% tag id:tag_name %}
+{% assign destaques = 'capa-promocao|subcategoria-1|subcategoria-2|capa' | split: "|" %}
+  {% assign has_product_tab = false %}
+  {% for tag_name in destaques %}
+    {% tag id:tag_name %}
+      {% contentfor tabs_list %}
         <li><a>{{ tag.title }}</a></li>
-        {% products tag:tag.name limit:4 %}
-          {% contentfor tabs_container %}
-            {% if forloop.first %}
-            <div id="woo-products" class="woo-content products_block shop">
-              <div id="4_woo_carousel" class="woo-carousel">
-                <div class="woocommerce columns-4">
-                  <ul class="products">
-                    {% endif %}
-                    {% include "_commons/product_list" %}
-                    {% if forloop.last %}
-                  </ul>
-                </div>
+      {% endcontentfor %}
+      {% products tag:tag.name %}
+        {% assign has_product_tab = true %}
+        {% contentfor tabs_container %}
+          {% if forloop.first %}
+          <div id="woo-products" class="woo-content products_block shop">
+            <div id="4_woo_carousel" class="woo-carousel">
+              <div class="woocommerce columns-4">
+                <ul class="products">
+                  {% endif %}
+                  {% include "_commons/product_list" %}
+                  {% if forloop.last %}
+                </ul>
               </div>
             </div>
-            {% endif %}
-          {% endcontentfor %}
-        {% endproducts %}
-      {% endtag %}
-    {% endfor %}
-  </ul>
+          </div>
+          {% endif %}
+        {% endcontentfor %}
+      {% endproducts %}
+    {% endtag %}
+  {% endfor %}
 
-  <div class="resp-tabs-container">
-   {{ tabs_container }}
+  {% if has_product_tab %}
+  <div class="panel-grid" id="pg-3867-2">
+    <div class="panel-grid-cell" id="pgc-3867-2-0" >
+      <div class="so-panel widget widget_black-studio-tinymce panel-first-child panel-last-child" id="panel-3867-2-0-0">
+        <h3 class="widget-title">Produtos em destaque</h3>
+        <div class="textwidget">
+          <div class="shortcode-title-container">
+            <div class="main-container  " style="padding:25px 0 0px;overflow: hidden;);">
+              <div class="inner-container">
+                <div class="title-outer" style=");">
+                  <div class="shortcode-title ">
+                    <h1 class="simple-type small-title">Produtos em destaque</h1>
+                  </div>
+                </div>
+                <div id="categorytab">
+                  <ul class="resp-tabs-list">
+                    {{ tabs_list }}
+                  </ul>
+
+                  <div class="resp-tabs-container">
+                    {{ tabs_container }}
+                  </div>
+                  <!-- resp-tabs-container -->
+                </div>
+                <!-- categorytab -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-  <!-- resp-tabs-container -->
-</div>
-<!-- categorytab -->
+  {% endif %}
