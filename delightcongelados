@@ -1,0 +1,33 @@
+<div id="categorytab">
+  {% assign destaques = 'capa-promocao|subcategoria-1|subcategoria-2|capa' | split: "|" %}
+  <ul class="resp-tabs-list">
+    {% for tag_name in destaques %}
+      {% tag id:tag_name %}
+        <li><a>{{ tag.title }}</a></li>
+        {% products tag:tag.name limit:4 %}
+          {% contentfor tabs_container %}
+            {% if forloop.first %}
+            <div id="woo-products" class="woo-content products_block shop">
+              <div id="4_woo_carousel" class="woo-carousel">
+                <div class="woocommerce columns-4">
+                  <ul class="products">
+                    {% endif %}
+                    {% include "_commons/product_list" %}
+                    {% if forloop.last %}
+                  </ul>
+                </div>
+              </div>
+            </div>
+            {% endif %}
+          {% endcontentfor %}
+        {% endproducts %}
+      {% endtag %}
+    {% endfor %}
+  </ul>
+
+  <div class="resp-tabs-container">
+   {{ tabs_container }}
+  </div>
+  <!-- resp-tabs-container -->
+</div>
+<!-- categorytab -->
